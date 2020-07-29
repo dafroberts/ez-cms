@@ -1,6 +1,4 @@
-<div style="text-align:center">
-    <img  src="https://repository-images.githubusercontent.com/283291020/a2eb7300-d136-11ea-9ea5-d8c25588677f" />
-</div>
+<img align="center src="https://repository-images.githubusercontent.com/283291020/58b6c180-d137-11ea-9322-bb8d91f5c6b5" />
 
 # Introduction
 Ez's goal is to provide a hassle free interface between developers and content creators by doing the heavy lifting between your code and the editor's content. It takes care of the tedious tasks involved in CRUD tasks without removing or modifying any of Laravel's great features.
