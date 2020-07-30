@@ -56,7 +56,7 @@ class MakeCollection extends Command
         }
 
         $options = [
-            'name' => 'Collections\\'.$this->argument('name'),
+            'name' => 'Collections\\'.$collectionName,
             '-a' => $this->option('all'),
             '-c' => $this->option('controller'),
             '-f' => $this->option('factory'),
