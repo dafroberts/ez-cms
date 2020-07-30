@@ -17,6 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/collections', 'Ez\Editor\CollectionController@index')->name('edit.collection.index');
+Route::get('/collections/edit/{collection}', 'Ez\Editor\CollectionController@show')->name('edit.collection.show');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
