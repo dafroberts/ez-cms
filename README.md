@@ -15,7 +15,7 @@ Ez's goal is to provide a hassle free interface between developers and content c
 
 # Latest news
 > **Collection models are now browsable: (experimental)**
-> As a proof of concept, collection models can now be browsed by checking out the `labs/edit-collections` branch. Run migrations and seed the database `php artisan migrate:fresh --seed` and visit `[root]/collections` after logging in. 
+> As a proof of concept, collection models can now be browsed by checking out the `labs/edit-collections` branch, running migrations, seeding the database (`php artisan migrate:fresh --seed`) and visiting `[root]/collections`. Any additional collections created with the `php artisan make:collection` command should also appear.
 
 # Installation
 Clone the repository
