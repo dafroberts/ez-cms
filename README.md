@@ -13,6 +13,10 @@ Ez's goal is to provide a hassle free interface between developers and content c
 
 ### More to come!
 
+# Latest news
+> **Collection models are now browsable: (experimental)**
+> As a proof of concept, collection models can now be browsed by checking out the `labs/edit-collections` branch. Run migrations and seed the database `php artisan migrate:fresh --seed` and visit `[root]/collections` after logging in. 
+
 # Installation
 Clone the repository
 ```
