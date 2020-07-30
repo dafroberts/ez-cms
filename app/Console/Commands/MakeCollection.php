@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 
 class MakeCollection extends Command
 {
@@ -45,8 +46,17 @@ class MakeCollection extends Command
      */
     public function handle()
     {
+        $collectionName = $this->argument('name');
+
+        if(ctype_lower($collectionName) || Str::singular($collectionName) != $collectionName) {
+            $proposedName = Str::singular(ucfirst(strtolower($collectionName)));
+            if ($this->confirm('"'.$collectionName.'" does not currently follow the standard naming convention for collections. Would you like to use "'.$proposedName.'" instead?')) {
+                $collectionName = $proposedName;
+            }
+        }
+
         $options = [
-            'name' => $this->argument('name'),
+            'name' => 'Collections\\'.$this->argument('name'),
             '-a' => $this->option('all'),
             '-c' => $this->option('controller'),
             '-f' => $this->option('factory'),
