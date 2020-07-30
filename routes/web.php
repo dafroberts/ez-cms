@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/collections', 'Ez\Editor\CollectionController@index')->name('edit.collection.index');
-Route::get('/collections/edit/{collection}', 'Ez\Editor\CollectionController@show')->name('edit.collection.show');
+Route::get('/collections/{collection}', 'Ez\Editor\CollectionController@show')->name('edit.collection.show');
 
 Auth::routes();
 
