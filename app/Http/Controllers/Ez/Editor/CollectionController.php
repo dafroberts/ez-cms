@@ -14,6 +14,19 @@ class CollectionController extends Controller
         $this->editableClasses = [];
     }
 
+    /**
+     * Instantiates a new instance of a collection model
+     * 
+     * TODO: Add error checks
+     */
+    private function loadCollectionClass($className) {
+        $fullClassName = "\App\Collections\\".$className;
+        return new $fullClassName();
+    }
+
+    /**
+     * Gets a list of all collection models
+     */
     public function getCollections($namespace) {
         $path = app_path()."\\".$namespace;
         $out = [];
@@ -30,10 +43,9 @@ class CollectionController extends Controller
         return $out;
     }
 
-
-
-
-
+    /**
+     * List all collection models
+     */
     public function index() {
         foreach($this->collectionPaths as $collection) {
             $className = last(explode("\\", $collection));
@@ -46,28 +58,33 @@ class CollectionController extends Controller
             ];
         }
 
-        // dd($this->editableClasses);
-
         return view('ez.collections.index', [
             'collections' => $this->editableClasses,
         ]);
     }
 
+    /**
+     * Displays a single collection model (and its rows)
+     */
     public function show($collection) {
-        $fullClassName = "\App\Collections\\".$collection;
-        $collectionModel = new $fullClassName();
-
-        // $columns = Schema::getColumnListing($collectionModel->getTable());
-
-        // dd($columns);
+        $collectionModel = $this->loadCollectionClass($collection);
 
         return view('ez.collections.model.index', [
+            'collection' => $collection,
             'columns' => Schema::getColumnListing($collectionModel->getTable()),
             'rows' => $collectionModel->all(),
         ]);
+    }
 
-        // dd($collectionModel->all());
+    /**
+     * Displays the edit form for a collection's row
+     */
+    public function editRow($collection, $id) {
+        $collectionModel = $this->loadCollectionClass($collection);
 
-        // dd($collection);
+        // Find the row
+        $row = $collectionModel->find($id);
+
+        dd($row);
     }
 }

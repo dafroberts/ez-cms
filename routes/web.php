@@ -17,8 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/collections', 'Ez\Editor\CollectionController@index')->name('edit.collection.index');
-Route::get('/collections/{collection}', 'Ez\Editor\CollectionController@show')->name('edit.collection.show');
+Route::get('/admin/collections', 'Ez\Editor\CollectionController@index')->name('ez.collection.index');
+Route::get('/admin/collections/{collection}', 'Ez\Editor\CollectionController@show')->name('ez.collection.show');
+Route::get('/admin/collections/{collection}/edit/{id}', 'Ez\Editor\CollectionController@editRow')->name('ez.collection.row.show');
 
 Auth::routes();
 
