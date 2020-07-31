@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+
 
 class CollectionController extends Controller
 {
@@ -85,6 +87,15 @@ class CollectionController extends Controller
         // Find the row
         $row = $collectionModel->find($id);
 
-        dd($row);
+        // Add the current values for each column
+        $columns = array_map(function($col) use($row) {
+            $col->CurrentValue = $row->{$col->Field};
+            return $col;
+        }, DB::select('describe '.$collectionModel->getTable()));
+
+        return view('ez.collections.model.edit-row', [
+            'row' => $row,
+            'columns' => $columns,
+        ]);
     }
 }
