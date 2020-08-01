@@ -5,13 +5,7 @@
 # Introduction
 Ez's goal is to provide a hassle free interface between developers and content creators by doing the heavy lifting between your code and the editor's content. It takes care of the tedious tasks involved in CRUD tasks without removing or modifying any of Laravel's great features.
 
-### Real time editing
-- TODO
-
-### Automatic content management
-- TODO
-
-### More to come!
+### [Latest updates](https://github.com/dafroberts/ez-cms/wiki/Latest-updates)]
 
 # Installation
 Clone the repository
