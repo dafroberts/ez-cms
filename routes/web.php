@@ -19,7 +19,9 @@ Route::get('/', function () {
 
 Route::get('/admin/collections', 'Ez\Editor\CollectionController@index')->name('ez.collection.index');
 Route::get('/admin/collections/{collection}', 'Ez\Editor\CollectionController@show')->name('ez.collection.show');
+
 Route::get('/admin/collections/{collection}/edit/{id}', 'Ez\Editor\CollectionController@editRow')->name('ez.collection.row.show');
+Route::post('/admin/collections/{collection}/update/{id}', 'Ez\Editor\CollectionController@updateRow')->name('ez.collection.row.update');
 
 Auth::routes();
 

@@ -89,13 +89,43 @@ class CollectionController extends Controller
 
         // Add the current values for each column
         $columns = array_map(function($col) use($row) {
+            // TODO: Remove un-editable columns here rather than in the template
             $col->CurrentValue = $row->{$col->Field};
             return $col;
         }, DB::select('describe '.$collectionModel->getTable()));
 
         return view('ez.collections.model.edit-row', [
+            'collection' => $collection,
+            'id' => $id,
             'row' => $row,
             'columns' => $columns,
         ]);
+    }
+
+    /**
+     * Updates a collection's row
+     * 
+     * TODO: Validation
+     */
+    public function updateRow(Request $request, $collection, $id) {
+        $collectionModel = $this->loadCollectionClass($collection);
+
+        // Find the row
+        $row = $collectionModel->find($id);
+
+        // Only update existing fields
+        foreach($request->all() as $key => $newColumnValue) {
+            if($row->{$key}) {
+                $row->{$key} = $newColumnValue;
+            }
+        }
+
+        // Save the updated row
+        $row->save();
+
+        return redirect()->route('ez.collection.row.show', [
+            'collection' => $collection,
+            'id' => $id,
+        ])->with('info', 'Record updated!');
     }
 }
