@@ -12,7 +12,7 @@
     @if(count($collections))
         <ul>
             @foreach($collections as $collection)
-                <li><a href="{{ route('edit.collection.show', ['collection' => $collection['class']]) }}">{{ $collection['label'] }}</a></li>
+                <li><a href="{{ route('ez.collection.show', ['collection' => $collection['class']]) }}">{{ $collection['label'] }}</a></li>
             @endforeach
         </ul>
     @else
