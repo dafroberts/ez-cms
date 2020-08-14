@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class CollectionController extends Controller
 {
     public function __construct() {
-        $this->collectionPaths = $this->getCollections('Collections');
+        $this->collections = $this->getCollections('Collections');
         $this->editableClasses = [];
     }
 
@@ -29,19 +29,33 @@ class CollectionController extends Controller
     /**
      * Gets a list of all collection models
      */
-    public function getCollections($namespace) {
+    public function getCollections($namespace = "Collections") {
         $path = app_path()."\\".$namespace;
         $out = [];
         $results = scandir($path);
+        
         foreach ($results as $result) {
+            
             if ($result === '.' or $result === '..') continue;
             $filename = $path . '\\' . $result;
+
             if (is_dir($filename)) {
-                $out = array_merge($out, $this->getCollections($filename));
-            }else{
-                $out[] = substr($filename,0,-4);
+                $out[] = array_merge($out, $this->getCollections($filename));
+            } else {
+                // $out[] = substr($filename,0,-4);
+                $fullClass = substr($filename,0,-4);
+
+                $className = last(explode("\\", $fullClass));
+
+                $out[] = [
+                    'class' => $className,
+                    // TODO: Collection namespace should be dynamic
+                    'namespace' => 'App\\Collections',
+                    'label' => Str::plural(ucfirst($className)),
+                ];
             }
         }
+
         return $out;
     }
 
@@ -49,20 +63,7 @@ class CollectionController extends Controller
      * List all collection models
      */
     public function index() {
-        foreach($this->collectionPaths as $collection) {
-            $className = last(explode("\\", $collection));
-
-            $this->editableClasses[] = [
-                'class' => $className,
-                // TODO: Collection namespace should be dynamic
-                'namespace' => 'App\\Collections',
-                'label' => Str::plural(ucfirst($className)),
-            ];
-        }
-
-        return view('ez.collections.index', [
-            'collections' => $this->editableClasses,
-        ]);
+        return view('collections.index');
     }
 
     /**
@@ -71,7 +72,7 @@ class CollectionController extends Controller
     public function show($collection) {
         $collectionModel = $this->loadCollectionClass($collection);
 
-        return view('ez.collections.model.index', [
+        return view('collections.model.index', [
             'collection' => $collection,
             'columns' => Schema::getColumnListing($collectionModel->getTable()),
             'rows' => $collectionModel->all(),
@@ -94,7 +95,7 @@ class CollectionController extends Controller
             return $col;
         }, DB::select('describe '.$collectionModel->getTable()));
 
-        return view('ez.collections.model.edit-row', [
+        return view('collections.model.edit-row', [
             'collection' => $collection,
             'id' => $id,
             'row' => $row,
@@ -123,7 +124,7 @@ class CollectionController extends Controller
         // Save the updated row
         $row->save();
 
-        return redirect()->route('ez.collection.row.show', [
+        return redirect()->route('collection.row.show', [
             'collection' => $collection,
             'id' => $id,
         ])->with('info', 'Record updated!');
